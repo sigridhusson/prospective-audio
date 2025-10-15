@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Bataille pour l'Avantage Quantique – KPMG Innovation</title>
+  <style>
+    @font-face {
+      font-family: 'PP Neue Montreal';
+      src: url('https://cdn.jsdelivr.net/gh/uncuts/fonts@main/PPNeueMontreal-Bold.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(180deg, #140047 0%, #1b0d73 100%);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+
+    /* Animation d’onde */
+    .wave-container {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0.15;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .wave-gradient {
+      position: absolute;
+      top: 40%; left: -100%;
+      width: 200%; height: 200px;
+      background: linear-gradient(90deg, transparent 0%, rgba(0,224,255,0.3) 25%, rgba(107,91,255,0.3) 50%, rgba(0,224,255,0.3) 75%, transparent 100%);
+      filter: blur(40px);
+      animation: wave 6s linear infinite;
+    }
+
+    @keyframes wave { 0%{transform:translateX(-100%);} 100%{transform:translateX(100%);} }
+
+    /* Contenu principal */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 28rem;
+      z-index: 10;
+      gap: 3rem;
+    }
+
+    /* Titre */
+    .title-block { text-align: center; padding: 0 1rem; }
+
+    h1 {
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-size: 2rem; font-weight: 700;
+      line-height: 1.2; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #00e0ff 0%, #6b5bff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase;
+    }
+
+    @media (min-width:768px){ h1{font-size:2.5rem;} }
+
+    /* Player */
+    .player-container { position:relative; width:7rem; height:7rem; }
+
+    .pulse-halo, .pulse-ring {
+      position:absolute; width:100%; height:100%;
+      border-radius:50%; opacity:0; pointer-events:none;
+    }
+
+    .pulse-halo {
+      background:radial-gradient(circle, rgba(0,224,255,0.4) 0%, rgba(107,91,255,0.2) 50%, transparent 70%);
+      animation:pulse 2s ease-in-out infinite;
+    }
+
+    .pulse-ring { border:2px solid rgba(0,224,255,0.6); animation:pulseRing 2s ease-out infinite; }
+    .pulse-ring:nth-child(3){ animation-delay:1s; }
+
+    .playing .pulse-halo, .playing .pulse-ring { opacity:1; }
+
+    @keyframes pulse {
+      0%,100%{transform:scale(1);opacity:0.6;}
+      50%{transform:scale(1.3);opacity:0;}
+    }
+    @keyframes pulseRing {
+      0%{transform:scale(0.95);opacity:0.7;}
+      50%{transform:scale(1.15);opacity:0;}
+      100%{transform:scale(1.3);opacity:0;}
+    }
+
+    .play-button {
+      position:relative;
+      width:7rem;height:7rem;
+      border-radius:50%;
+      background:rgba(255,255,255,0.05);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.1);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;z-index:10;
+      box-shadow:0 8px 32px rgba(0,224,255,0.2);
+      transition:transform 0.2s ease;
+    }
+
+    .play-button:hover{transform:scale(1.05);}
+    .play-button:active{transform:scale(0.98);}
+
+    .play-icon,.pause-icon{width:2.5rem;height:2.5rem;fill:#00e0ff;stroke:#00e0ff;}
+    .play-icon{margin-left:0.25rem;}
+    .pause-icon{display:none;}
+    .playing .play-icon{display:none;}
+    .playing .pause-icon{display:block;}
+
+    footer{width:100%;text-align:center;padding-bottom:1rem;z-index:10;}
+    footer p{font-family:'Inter',sans-serif;font-size:0.625rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:#E8E8FF;opacity:0.5;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Animation d’onde -->
+    <div class="wave-container"><div class="wave-gradient"></div></div>
+
+    <!-- Contenu principal -->
+    <main>
+      <!-- Titre -->
+      <div class="title-block">
+        <h1>LA BATAILLE POUR<br>L'AVANTAGE QUANTIQUE</h1>
+      </div>
+
+      <!-- Lecteur audio -->
+      <div class="player-container" id="playerContainer">
+        <div class="pulse-halo"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <button class="play-button" id="playButton" aria-label="Play">
+          <svg class="play-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <svg class="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+        </button>
+      </div>
+
+      <!-- Élément audio -->
+      <audio id="audioPlayer" preload="auto">
+        <source src="https://raw.githubusercontent.com/sigridhusson/prospective-audio/main/bataillequantique.mp3" type="audio/mp3">
+        Votre navigateur ne supporte pas l'élément audio.
+      </audio>
+    </main>
+
+    <!-- Footer -->
+    <footer><p>KPMG INNOVATION</p></footer>
+  </div>
+
+  <script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playButton = document.getElementById('playButton');
+    const playerContainer = document.getElementById('playerContainer');
+    let hasInteracted = false;
+
+    function togglePlayPause() {
+      if (!hasInteracted) hasInteracted = true;
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        playerContainer.classList.add('playing');
+      } else {
+        audioPlayer.pause();
+        playerContainer.classList.remove('playing');
+      }
+    }
+
+    // Premier tap : lecture automatique
+    document.addEventListener('click', function() {
+      if (!hasInteracted) {
+        hasInteracted = true;
+        audioPlayer.play();
+        playerContainer.classList.add('playing');
+      }
+    }, { once: true });
+
+    // Bouton lecture/pause
+    playButton.addEventListener('click', function(e) {
+      e.stopPropagation();
+      togglePlayPause();
+    });
+
+    // Événements audio
+    audioPlayer.addEventListener('ended', () => playerContainer.classList.remove('playing'));
+    audioPlayer.addEventListener('play', () => playerContainer.classList.add('playing'));
+    audioPlayer.addEventListener('pause', () => playerContainer.classList.remove('playing'));
+  </script>
+</body>
+</html>
